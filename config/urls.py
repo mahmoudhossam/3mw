@@ -3,11 +3,12 @@ from django.urls import include, path
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views import defaults as default_views
-from threemegawatt.sites.views import SitesView, SummaryView
+from threemegawatt.sites.views import SiteListView, SummaryView, SiteDetailView
 
 urlpatterns = [
-    path("", SitesView.as_view(), name="sites"),
+    path("", SiteListView.as_view(), name="sites"),
     path("summary/", SummaryView.as_view(), name="summary"),
+    path("sites/<int:id>", SiteDetailView.as_view(), name="detail"),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # Your stuff: custom urls includes go here

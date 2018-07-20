@@ -13,3 +13,6 @@ class Values(models.Model):
     date = models.DateField()
     a_value = models.FloatField()
     b_value = models.FloatField()
+
+    def __str__(self):
+        return "Values for {} on {}".format(self.site.name, self.date)
