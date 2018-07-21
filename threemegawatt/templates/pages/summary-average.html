@@ -25,11 +25,11 @@
         </tr>
     </thead>
     <tbody>
-      {% for site, val in values.items %}
+      {% for val in values %}
         <tr>
-          <td>{{ site }} Site</td>
-          <td>{{ val.a_value }}</td>
-          <td>{{ val.b_value }}</td>
+          <td>{{ val.site.name }} Site</td>
+          <td>{{ val.a_value|floatformat:2 }}</td>
+          <td>{{ val.b_value|floatformat:2 }}</td>
         </tr>
       {% endfor %}
     </tbody>

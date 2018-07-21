@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView
+from django.db.models import Avg
 from .models import Site, Values
 
 
@@ -30,5 +31,27 @@ class SummaryView(TemplateView):
 
     def get_context_data(self, **kwargs):
         super().get_context_data(**kwargs)
-        kwargs['values'] = Values.objects.all()
+        values = {}
+        for val in Values.objects.all():
+            site_name = val.site.name
+            if site_name in values:
+                values[site_name]['a_value'] += val.a_value
+                values[site_name]['b_value'] += val.b_value
+            else:
+                values[site_name] = {'a_value': val.a_value,
+                                     'b_value': val.b_value}
+        kwargs['values'] = values
+        return kwargs
+
+
+class AverageView(TemplateView):
+    template_name = "pages/summary-average.html"
+
+    def get_context_data(self, **kwargs):
+        super().get_context_data(**kwargs)
+        query = ("SELECT v.id, s.name, AVG(v.a_value) AS a_value, AVG(v.b_value) AS b_value "
+                 "FROM sites_values v LEFT OUTER JOIN sites_site s "
+                 "ON v.site_id = s.id GROUP BY s.id;")
+        values = Values.objects.raw(query)
+        kwargs['values'] = values
         return kwargs
