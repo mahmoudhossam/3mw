@@ -13,7 +13,7 @@ class SiteListView(TemplateView):
 
 
 class SiteDetailView(TemplateView):
-    template_name = "detail.html"
+    template_name = "pages/detail.html"
 
     def get_context_data(self, **kwargs):
         super().get_context_data(**kwargs)
