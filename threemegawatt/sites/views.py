@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView
+from django.http import Http404
 from .models import Site, Values
 
 
@@ -21,7 +22,7 @@ class SiteDetailView(TemplateView):
             kwargs['site'] = site
             kwargs['values'] = Values.objects.filter(site=site)
         except Site.DoesNotExist:
-            pass
+            raise Http404("Site does not exist")
         return kwargs
 
 
